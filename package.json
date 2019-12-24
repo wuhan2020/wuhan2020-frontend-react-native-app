@@ -10,6 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "base32-decode": "^1.0.0",
+    "base32-encode": "^1.1.1",
+    "buffer": "^5.4.3",
+    "crypto-js": "^3.1.9-1",
+    "otplib": "^11.0.1",
     "react": "16.9.0",
     "react-native": "0.61.5"
   },
@@ -17,12 +22,17 @@
     "@babel/core": "^7.7.4",
     "@babel/runtime": "^7.7.4",
     "@react-native-community/eslint-config": "^0.0.5",
+    "@types/crypto-js": "^3.1.43",
+    "@types/node": "^13.1.0",
+    "@types/otplib": "^10.0.0",
     "@types/react": "^16.9.13",
     "@types/react-native": "^0.60.23",
     "babel-jest": "^24.9.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "eslint": "^6.7.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.57.0",
+    "prettier": "^1.19.1",
     "react-native-typescript-transformer": "^1.2.13",
     "react-test-renderer": "16.9.0",
     "typescript": "^3.7.2"
