@@ -32,9 +32,7 @@ class Crypto {
         return CryptoJS.HmacSHA512;
       default:
         throw new Error(
-          `Unsupported algorithm ${
-            this.algorithm
-          }. Accepts: sha1, sha256, sha512`,
+          `Unsupported algorithm ${this.algorithm}. Accepts: sha1, sha256, sha512`,
         );
     }
   }
