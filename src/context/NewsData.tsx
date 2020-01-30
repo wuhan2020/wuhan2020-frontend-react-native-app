@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 export const NewsDataContext = React.createContext({
   data: null,
   pageNum: 1,
+  loading: false,
   fetchMore: () => undefined,
 });
 
@@ -12,22 +13,22 @@ type PropTypes = {
 
 function Provider(props: PropTypes) {
   const [data, setData] = useState(null);
-  // const [counter, setCounter] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(
     function() {
-      fetch('http://ncov.news.dragon-yuan.me/api/news?search=&page=0')
+      setLoading(true);
+      fetch(`http://ncov.news.dragon-yuan.me/api/news?search=&page=${pageNum}`)
         .then(d => d.json())
         .then(json => {
-
           if (pageNum > 1) {
-            setData((data || []).concat(json.list));
+            setData((data || []).concat(json.result.list));
           } else {
             setData(json.result.list);
           }
-        })
-        .catch();
+          setLoading(false);
+        });
     },
     [pageNum],
   );
@@ -37,7 +38,7 @@ function Provider(props: PropTypes) {
   }
 
   return (
-    <NewsDataContext.Provider value={{ data, pageNum, fetchMore }}>
+    <NewsDataContext.Provider value={{ data, pageNum, fetchMore, loading }}>
       {props.children}
     </NewsDataContext.Provider>
   );

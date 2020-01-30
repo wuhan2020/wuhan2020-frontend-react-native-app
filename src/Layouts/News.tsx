@@ -15,6 +15,8 @@ import {
 import { useState } from 'react';
 import { ListItem, Button } from 'react-native-elements';
 import WebView from 'react-native-webview';
+import { uniqBy } from 'lodash';
+
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -94,7 +96,9 @@ function Entry(props: EntryPropsType) {
 }
 
 function NewsScreen() {
-  const { data } = React.useContext(NewsDataContext);
+  const { data, loading, fetchMore } = React.useContext(NewsDataContext);
+
+  const news = uniqBy(data || [], 'sourceId');
 
   return (
     <StatusBarSafeLayout>
@@ -102,11 +106,11 @@ function NewsScreen() {
         <Text style={styles.header}>新闻汇总</Text>
       </View>
 
-      {data === null && <ActivityIndicator size="large" />}
-      <ScrollView>
-        {(data || []).map((entry: EntryPropsType) => (
+      <ScrollView onMomentumScrollEnd={fetchMore}>
+        {news.map((entry: EntryPropsType) => (
           <Entry key={entry.sourceId} {...entry} />
         ))}
+        {loading ? <ActivityIndicator size="large" /> : null}
       </ScrollView>
     </StatusBarSafeLayout>
   );
