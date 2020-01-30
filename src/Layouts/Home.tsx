@@ -2,6 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import {
   View,
   Text,
+  SafeAreaView,
   Dimensions,
   ScrollView,
   RefreshControl,
@@ -156,47 +157,49 @@ function Map() {
     ],
   };
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-      }}
-      refreshControl={
-        <RefreshControl
-          tintColor="pink"
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      }>
-      <View style={{ backgroundColor: 'white' }}>
-        {mapData.length ? (
-          <View>
-            <Echarts option={option} height={height / 3} />
-            <ButtonGroup
-              onPress={setIndex}
-              selectedIndex={selectedIndex}
-              buttons={[
-                `确诊 (${total.confirmedCount})`,
-                `疑似 (${total.suspectedCount})`,
-                `治愈 (${total.curedCount})`,
-                `致死 (${total.deadCount})`,
-              ]}
-              containerStyle={{ height: 50 }}
-            />
-            {data && data.getTimelineService && (
-              <Timeline data={data.getTimelineService} />
-            )}
-            {data && data.getIndexRecommendList && (
-              <RecommendationList data={data.getIndexRecommendList} />
-            )}
-          </View>
-        ) : (
-          <Text>载入数据...</Text>
-        )}
-      </View>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        style={{
+          flex: 1,
+        }}
+        refreshControl={
+          <RefreshControl
+            tintColor="pink"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
+        <View style={{ backgroundColor: 'white' }}>
+          {mapData.length ? (
+            <View>
+              <Echarts option={option} height={height / 3} />
+              <ButtonGroup
+                onPress={setIndex}
+                selectedIndex={selectedIndex}
+                buttons={[
+                  `确诊 (${total.confirmedCount})`,
+                  `疑似 (${total.suspectedCount})`,
+                  `治愈 (${total.curedCount})`,
+                  `致死 (${total.deadCount})`,
+                ]}
+                containerStyle={{ height: 50 }}
+              />
+              {data && data.getTimelineService && (
+                <Timeline data={data.getTimelineService} />
+              )}
+              {data && data.getIndexRecommendList && (
+                <RecommendationList data={data.getIndexRecommendList} />
+              )}
+            </View>
+          ) : (
+            <Text>载入数据...</Text>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-Map.navigationOptions = { title: 'Wuhan 2020 ❤️' };
+Map.navigationOptions = { title: '主页' };
 
 export default Map;

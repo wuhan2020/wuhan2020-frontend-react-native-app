@@ -5628,6 +5628,11 @@ react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
+react-lifecycles-compat@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
 "react-native-echarts-map@https://github.com/geastwood/react-native-echarts-map":
   version "0.0.1"
   resolved "https://github.com/geastwood/react-native-echarts-map#20b9e8e8da15a8a1d9772289eabce88b01a18ba6"
@@ -5672,12 +5677,17 @@ react-native-ratings@^6.3.0:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
+react-native-reanimated@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.7.0.tgz#896db2576552ac59d288a1f6c7f00afc171f240c"
+  integrity sha512-FQWSqP605eQVJumuK2HpR+7heF0ZI+qfy4jNguv3Xv8nPFHeIgZaRTXHCEQL2AcuSIj50zy8jGJf5l134QMQWQ==
+
 react-native-safe-area-context@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.6.2.tgz#d467ac8a953426bfbb6d8f417222b0dc3952be7a"
   integrity sha512-VtBW0JymVCwVt0TGxTv25Co3wtOv3Yb/K5pAUYkjKXNhWFDz5ZwUG/Yho/p0EkWYlFdroJcSqlvVFl2n3AU7SA==
 
-react-native-safe-area-view@^0.14.1:
+react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.6:
   version "0.14.8"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.8.tgz#ef33c46ff8164ae77acad48c3039ec9c34873e5b"
   integrity sha512-MtRSIcZNstxv87Jet+UsPhEd1tpGe8cVskDXlP657x6rHpSrbrc+y13ZNXrwAgGNNhqQNX7UJT68ZIq//ZRmvw==
@@ -5702,6 +5712,11 @@ react-native-status-bar-height@^2.2.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-native-status-bar-height/-/react-native-status-bar-height-2.4.0.tgz#de8cee4bb733a196167210d2d0bc1fa10acba3e3"
   integrity sha512-pWvZFlyIHiuxLugLioq97vXiaGSovFXEyxt76wQtbq0gxv4dGXMPqYow46UmpwOgeJpBhqL1E0EKxnfJRrFz5w==
+
+react-native-tab-view@^2.11.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.12.0.tgz#357c8632fd16a622ab16e6965779171bb00a85d0"
+  integrity sha512-rjAicASp7RMiohZ0afjfzqbHDO9leeZCD6d9s9sXwrnf1qNiP6oixforKbmVFr+mgAfa8Q0k4kJwf1w9t0AY+A==
 
 react-native-typescript-transformer@^1.2.13:
   version "1.2.13"
@@ -5780,6 +5795,16 @@ react-navigation-stack@^2.0.7:
   dependencies:
     color "^3.1.2"
     react-native-iphone-x-helper "^1.2.1"
+
+react-navigation-tabs@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-2.7.0.tgz#68505910164a51c44710f835def8fe29360f346a"
+  integrity sha512-fQEHjFrIBi+89loLL521HjGS0Z9tl4Y89SSamRkDl8Of6bPS1Ep++an3ctl2j7c3veqBZBrj3H1qa7qjd3apBQ==
+  dependencies:
+    hoist-non-react-statics "^3.3.0"
+    react-lifecycles-compat "^3.0.4"
+    react-native-safe-area-view "^0.14.6"
+    react-native-tab-view "^2.11.0"
 
 react-navigation@^4.0.10:
   version "4.0.10"

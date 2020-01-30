@@ -11,7 +11,7 @@ function Home(props: PropTypes) {
   return (
     <>
       <StatusBar barStyle={barStyle} />
-      <SafeAreaView>{props.children}</SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>{props.children}</SafeAreaView>
     </>
   );
 }

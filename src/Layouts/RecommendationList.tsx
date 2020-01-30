@@ -6,6 +6,7 @@ import {
   Alert,
   Modal,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { Button, ListItem, Badge } from 'react-native-elements';
@@ -25,6 +26,8 @@ type EntryPropsType = {
 
 function Entry(props: EntryPropsType) {
   const [visible, setVisible] = useState(false);
+  const [loadingWebview, setLoading] = useState(true);
+
   return (
     <View>
       <ListItem
@@ -49,8 +52,15 @@ function Entry(props: EntryPropsType) {
           Alert.alert('Modal has been closed.');
         }}>
         <View style={{ padding: 16, justifyContent: 'space-between' }}>
+          {loadingWebview ? (
+            <ActivityIndicator size="large" color="red" />
+          ) : null}
           <View style={{ height: height - 150 }}>
-            <WebView source={{ uri: props.linkUrl }} />
+            <WebView
+              onLoad={() => setLoading(true)}
+              onLoadEnd={() => setLoading(false)}
+              source={{ uri: props.linkUrl }}
+            />
           </View>
           <View>
             <Button

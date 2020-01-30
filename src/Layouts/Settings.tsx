@@ -11,7 +11,7 @@ function SettingScreen() {
 }
 
 SettingScreen.navigationOptions = {
-  title: 'Settings',
+  title: '其他',
 };
 
 export default SettingScreen;
