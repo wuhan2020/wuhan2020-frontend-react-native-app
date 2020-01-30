@@ -9,8 +9,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { Button, ListItem, Badge } from 'react-native-elements';
-import momentjs from 'moment';
+import { Button, ListItem,  } from 'react-native-elements';
+import { formatDate } from '../utils';
 const { height } = Dimensions.get('window');
 
 type EntryPropsType = {
@@ -37,8 +37,7 @@ function Entry(props: EntryPropsType) {
         subtitle={
           <Text style={{ fontSize: 12, paddingTop: 3 }}>
             修改时间：
-            {momentjs(props.modifyTime).format('YYYY-MM-DD hh:mm:ss')} from{' '}
-            {props.operator}
+            {formatDate(props.modifyTime)} from {props.operator}
           </Text>
         }
         leftAvatar={{ source: { uri: props.imgUrl } }}

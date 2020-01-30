@@ -4,6 +4,7 @@ import HomeScreen from './Layouts/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SettingScreen from './Layouts/Settings';
 import NewsScreen from './Layouts/News';
+import MobilityScreen from './Layouts/Mobility';
 import DataProvider from './context/Data';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import IconWMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,6 +16,7 @@ const MainNavigator = createBottomTabNavigator(
   {
     Home: HomeScreen,
     News: NewsScreen,
+    Mobility: MobilityScreen,
     Settings: SettingScreen,
   },
   {
@@ -32,6 +34,8 @@ const MainNavigator = createBottomTabNavigator(
           iconName = focused ? 'ios-list-box' : 'ios-list';
         } else if (routeName === 'News') {
           iconName = 'ios-at';
+        } else if (routeName === 'Mobility') {
+          iconName = 'ios-train';
         }
 
         return <IconComponent name={iconName} size={25} color={tintColor} />;

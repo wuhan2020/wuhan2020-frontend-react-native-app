@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Button, ListItem, Badge } from 'react-native-elements';
-import momentjs from 'moment';
+import { formatTime } from '../utils';
 const { height } = Dimensions.get('window');
 
 type EntryPropsType = {
@@ -47,7 +47,7 @@ function Entry(props: EntryPropsType) {
               {props.pubDateStr}
             </Text>
             <Text style={{ fontSize: 12, color: '#717171' }}>
-              {momentjs(props.modifyTime).format('h:mm:ss')}
+              {formatTime(props.modifyTime)}
             </Text>
           </View>
         }
