@@ -6,7 +6,6 @@ import {
   Alert,
   Modal,
   Dimensions,
-  SafeAreaView,
 } from 'react-native';
 import { Button, ListItem, Badge } from 'react-native-elements';
 import momentjs from 'moment';
@@ -31,9 +30,9 @@ function Entry(props: EntryPropsType) {
   return (
     <View>
       <ListItem
-        onLongPress={() => setVisible(true)}
+        onPress={() => setVisible(true)}
         Component={TouchableOpacity}
-        title={props.title}
+        title={<Text style={{ fontWeight: '800' }}>{props.title}</Text>}
         subtitle={`${props.summary.slice(0, 50)}...`}
         leftAvatar={
           <View>
@@ -48,7 +47,7 @@ function Entry(props: EntryPropsType) {
               {props.pubDateStr}
             </Text>
             <Text style={{ fontSize: 12, color: '#717171' }}>
-              {momentjs(props.modifyTime / 1000).format('h:mm:ss')}
+              {momentjs(props.modifyTime).format('h:mm:ss')}
             </Text>
           </View>
         }
@@ -61,7 +60,6 @@ function Entry(props: EntryPropsType) {
         }
       />
       <Modal
-        style={{ flex: 1 }}
         animationType="fade"
         presentationStyle="pageSheet"
         visible={visible}
@@ -74,7 +72,9 @@ function Entry(props: EntryPropsType) {
               style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 20 }}>
               {props.title}
             </Text>
-            <Text style={{ fontSize: 16, lineHeight: 22 }}>{props.summary}</Text>
+            <Text style={{ fontSize: 16, lineHeight: 22 }}>
+              {props.summary}
+            </Text>
 
             <View style={{ alignSelf: 'flex-end', paddingTop: 20 }}>
               <Text style={{ fontWeight: '800' }}>

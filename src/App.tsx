@@ -4,6 +4,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './Layouts/Home';
 import SettingScreen from './Layouts/Settings';
 import DataProvider from './context/Data';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+Icon.loadFont();
 
 const MainNavigator = createStackNavigator({
   Home: { screen: HomeScreen },

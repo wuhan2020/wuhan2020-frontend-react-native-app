@@ -10,6 +10,7 @@ import Echarts from 'react-native-echarts-map';
 import { ButtonGroup } from 'react-native-elements';
 import { DataContext } from '../context/Data';
 import Timeline from './Timeline';
+import RecommendationList from './RecommendationList';
 
 const { height } = Dimensions.get('window');
 
@@ -183,6 +184,9 @@ function Map() {
             />
             {data && data.getTimelineService && (
               <Timeline data={data.getTimelineService} />
+            )}
+            {data && data.getIndexRecommendList && (
+              <RecommendationList data={data.getIndexRecommendList} />
             )}
           </View>
         ) : (
