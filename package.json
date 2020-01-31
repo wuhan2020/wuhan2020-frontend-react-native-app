@@ -1,5 +1,5 @@
 {
-  "name": "authme",
+  "name": "wuhan2020",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,13 +11,8 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.5",
-    "base32-decode": "^1.0.0",
-    "base32-encode": "^1.1.1",
-    "buffer": "^5.4.3",
-    "crypto-js": "^3.1.9-1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "otplib": "^11.0.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-chinamap": "^1.0.3",

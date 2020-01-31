@@ -32,14 +32,6 @@ const piecesMap = {
     { min: 500, max: 1000, color: '#9C2F31' },
     { min: 1000, color: '#731919' },
   ],
-  suspectedCount: [
-    { max: 1, color: '#fcfcfc', label: '< 1' },
-    { min: 1, max: 4, color: '#F08F7F' },
-    { min: 5, max: 9, color: '#E26061' },
-    { min: 10, max: 49, color: '#C34548' },
-    { min: 50, max: 99, color: '#9C2F31' },
-    { min: 100, color: '#731919' },
-  ],
   curedCount: [
     { max: 1, color: '#fcfcfc', label: '< 1' },
     { min: 1, max: 4, color: '#F08F7F' },
@@ -59,13 +51,11 @@ const piecesMap = {
 };
 const titleMap = {
   confirmedCount: '（确诊）',
-  suspectedCount: '（疑似）',
   curedCount: '（治愈）',
   deadCount: '（致死）',
 };
 const filterList = [
   'confirmedCount',
-  'suspectedCount',
   'curedCount',
   'deadCount',
 ];
@@ -80,7 +70,6 @@ function Map() {
 
   const total = {
     confirmedCount: 0,
-    suspectedCount: 0,
     curedCount: 0,
     deadCount: 0,
   };
@@ -152,7 +141,6 @@ function Map() {
       total.confirmedCount = total.confirmedCount + entry.confirmedCount;
       total.curedCount = total.curedCount + entry.curedCount;
       total.deadCount = total.deadCount + entry.deadCount;
-      total.suspectedCount = total.suspectedCount + entry.suspectedCount;
 
       formatted = formatted.concat([
         {
@@ -241,7 +229,6 @@ function Map() {
                 selectedIndex={selectedIndex}
                 buttons={[
                   `确诊 (${total.confirmedCount})`,
-                  `疑似 (${total.suspectedCount})`,
                   `治愈 (${total.curedCount})`,
                   `致死 (${total.deadCount})`,
                 ]}
