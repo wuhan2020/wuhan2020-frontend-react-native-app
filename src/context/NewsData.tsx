@@ -4,6 +4,7 @@ export const NewsDataContext = React.createContext({
   data: null,
   pageNum: 1,
   loading: false,
+  refresh: () => undefined,
   fetchMore: () => undefined,
 });
 
@@ -37,8 +38,12 @@ function Provider(props: PropTypes) {
     setPageNum(pageNum + 1);
   }
 
+  function refresh() {
+    setPageNum(1);
+  }
+
   return (
-    <NewsDataContext.Provider value={{ data, pageNum, fetchMore, loading }}>
+    <NewsDataContext.Provider value={{ data, pageNum, fetchMore, loading, refresh }}>
       {props.children}
     </NewsDataContext.Provider>
   );

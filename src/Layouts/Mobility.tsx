@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useCallback } from 'react';
 import StatusBarSafeLayout from './StatusBarSafeLayout';
 import MobilityDataContextProvider, {
   MobilityDataContext,
@@ -13,13 +13,14 @@ import {
   Alert,
   Dimensions,
   SectionList,
+  RefreshControl,
 } from 'react-native';
 import { useState } from 'react';
 import { ListItem, Button, Card } from 'react-native-elements';
 import WebView from 'react-native-webview';
 import { groupBy } from 'lodash';
 import { FlatList } from 'react-native-gesture-handler';
-import { formatTime } from '../utils';
+import { formatTime, wait } from '../utils';
 
 const { height } = Dimensions.get('window');
 
@@ -150,9 +151,10 @@ type EntryType = {
 };
 
 function MobilityScreen() {
-  const { data, loading } = React.useContext(MobilityDataContext);
+  const { data, loading, refresh } = useContext(MobilityDataContext);
   const [selection, setSelection] = useState(null);
   const [loadingWebview, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   function keyExtractor(item: EntryType) {
     return String(item.id);
@@ -197,12 +199,26 @@ function MobilityScreen() {
     );
   }
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    refresh();
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing, refresh]);
+
   return (
     <StatusBarSafeLayout>
       <View style={styles.constainer}>
         <SectionList
           refreshing={loading}
           keyExtractor={keyExtractor}
+          refreshControl={
+            <RefreshControl
+              tintColor="pink"
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
           renderItem={renderItem}
           sections={toSection(data)}
           renderSectionHeader={({ section: { title } }) => (
@@ -210,7 +226,7 @@ function MobilityScreen() {
               <Text style={styles.subheader}>{title}</Text>
             </View>
           )}
-          ListEmptyComponent={<ActivityIndicator size="large" />}
+          ListEmptyComponent={<ActivityIndicator size="large" color="red" />}
           ListHeaderComponent={
             <Text style={styles.header}>确诊患者相同行程查询</Text>
           }
@@ -257,14 +273,14 @@ function MobilityScreen() {
   );
 }
 
-MobilityScreen.navigationOptions = {
-  title: '同程查询',
-};
-
 const WithProvider = () => (
   <MobilityDataContextProvider>
     <MobilityScreen />
   </MobilityDataContextProvider>
 );
+
+WithProvider.navigationOptions = {
+  title: '同程查询',
+};
 
 export default WithProvider;

@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { Button, ListItem,  } from 'react-native-elements';
+import { Button, ListItem } from 'react-native-elements';
 import { formatDate } from '../utils';
 const { height } = Dimensions.get('window');
 

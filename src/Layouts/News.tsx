@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useCallback } from 'react';
 import StatusBarSafeLayout from './StatusBarSafeLayout';
 import NewsDataContextProvider, { NewsDataContext } from '../context/NewsData';
 import {
@@ -11,11 +11,13 @@ import {
   Alert,
   Dimensions,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import { useState } from 'react';
 import { ListItem, Button } from 'react-native-elements';
 import WebView from 'react-native-webview';
 import { uniqBy } from 'lodash';
+import { wait } from '../utils';
 
 const { height } = Dimensions.get('window');
 
@@ -96,7 +98,15 @@ function Entry(props: EntryPropsType) {
 }
 
 function NewsScreen() {
-  const { data, loading, fetchMore } = React.useContext(NewsDataContext);
+  const { data, loading, fetchMore, refresh } = useContext(NewsDataContext);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    refresh();
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing, refresh]);
 
   const news = uniqBy(data || [], 'sourceId');
 
@@ -106,24 +116,32 @@ function NewsScreen() {
         <Text style={styles.header}>新闻汇总</Text>
       </View>
 
-      <ScrollView onMomentumScrollEnd={fetchMore}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            tintColor="pink"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+        onMomentumScrollEnd={fetchMore}>
         {news.map((entry: EntryPropsType) => (
           <Entry key={entry.sourceId} {...entry} />
         ))}
-        {loading ? <ActivityIndicator size="large" /> : null}
+        {loading ? <ActivityIndicator size="large" color="red" /> : null}
       </ScrollView>
     </StatusBarSafeLayout>
   );
 }
-
-NewsScreen.navigationOptions = {
-  title: '新闻汇总',
-};
 
 const WithProvider = () => (
   <NewsDataContextProvider>
     <NewsScreen />
   </NewsDataContextProvider>
 );
+
+WithProvider.navigationOptions = {
+  title: '新闻汇总',
+};
 
 export default WithProvider;

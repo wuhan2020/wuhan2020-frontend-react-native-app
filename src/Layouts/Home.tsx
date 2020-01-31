@@ -1,4 +1,10 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, {
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
 import {
   View,
   Text,
@@ -6,20 +12,17 @@ import {
   Dimensions,
   ScrollView,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
-import Echarts from 'react-native-echarts-map';
 import { ButtonGroup } from 'react-native-elements';
 import { DataContext } from '../context/Data';
 import Timeline from './Timeline';
 import RecommendationList from './RecommendationList';
+import { ECharts } from 'react-native-echarts-wrapper';
+import {wait} from '../utils';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
-function wait(timeout: number) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
 
 const piecesMap = {
   confirmedCount: [
@@ -83,6 +86,59 @@ function Map() {
     deadCount: 0,
   };
 
+  const webviewRef = useRef(null);
+  useEffect(function() {
+    if (webviewRef.current) {
+      webviewRef.current.setOption({
+        title: {
+          text: `疫情地图${titleMap[filter]}`,
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}',
+        },
+        visualMap: {
+          pieces: piecesMap[filter],
+          showLabel: true,
+          realtime: true,
+          inRange: {
+            color: ['yellow', 'red'],
+          },
+        },
+        series: [
+          {
+            name: '中国',
+            type: 'map',
+            map: 'china',
+            selectedMode: 'single', //multiple多选
+            itemStyle: {
+              normal: {
+                label: {
+                  show: false,
+                  textStyle: {
+                    color: '#231816',
+                  },
+                },
+                areaStyle: { color: '#B1D0EC' },
+                color: '#B1D0EC',
+                borderColor: '#bbb',
+              },
+              emphasis: {
+                label: {
+                  show: false,
+                  textStyle: {
+                    color: '#fa4f04',
+                  },
+                },
+              },
+            },
+            data: mapData,
+          },
+        ],
+      });
+    }
+  });
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
 
@@ -106,6 +162,7 @@ function Map() {
         },
       ]);
     });
+
     mapData = formatted;
   }
 
@@ -156,6 +213,7 @@ function Map() {
       },
     ],
   };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
@@ -171,8 +229,14 @@ function Map() {
         }>
         <View style={{ backgroundColor: 'white' }}>
           {mapData.length ? (
-            <View>
-              <Echarts option={option} height={height / 3} />
+            <View style={{ flex: 1 }}>
+              <View style={{ height: 300 }}>
+                <ECharts
+                  ref={webviewRef}
+                  option={option}
+                  backgroundColor="#fcfcfc"
+                />
+              </View>
               <ButtonGroup
                 onPress={setIndex}
                 selectedIndex={selectedIndex}
@@ -192,7 +256,13 @@ function Map() {
               )}
             </View>
           ) : (
-            <Text>载入数据...</Text>
+            <View style={{ flex: 1, width, height }}>
+              <ActivityIndicator
+                size="large"
+                color="red"
+                style={{ marginTop: height / 3 }}
+              />
+            </View>
           )}
         </View>
       </ScrollView>
