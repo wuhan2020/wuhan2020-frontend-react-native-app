@@ -43,7 +43,8 @@ function Provider(props: PropTypes) {
   }
 
   return (
-    <NewsDataContext.Provider value={{ data, pageNum, fetchMore, loading, refresh }}>
+    <NewsDataContext.Provider
+      value={{ data, pageNum, fetchMore, loading, refresh }}>
       {props.children}
     </NewsDataContext.Provider>
   );

@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {
   View,
-  Text,
   SafeAreaView,
   Dimensions,
   ScrollView,
@@ -15,14 +14,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
-import { DataContext } from '../context/Data';
+import DataProvider, { DataContext } from '../context/Data';
+
 import Timeline from './Timeline';
 import RecommendationList from './RecommendationList';
 import { ECharts } from 'react-native-echarts-wrapper';
-import {wait} from '../utils';
+import { wait } from '../utils';
 
 const { height, width } = Dimensions.get('window');
-
 
 const piecesMap = {
   confirmedCount: [
@@ -270,6 +269,12 @@ function Map() {
   );
 }
 
-Map.navigationOptions = { title: '主页' };
+const WithProvider = () => (
+  <DataProvider>
+    <Map />
+  </DataProvider>
+);
 
-export default Map;
+WithProvider.navigationOptions = { title: '主页' };
+
+export default WithProvider;

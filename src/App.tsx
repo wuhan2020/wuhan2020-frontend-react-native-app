@@ -2,10 +2,9 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import HomeScreen from './Layouts/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import SettingScreen from './Layouts/Settings';
+import Wuhan2020Screen from './Layouts/Wuhan2020';
 import NewsScreen from './Layouts/News';
 import MobilityScreen from './Layouts/Mobility';
-import DataProvider from './context/Data';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import IconWMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -17,7 +16,7 @@ const MainNavigator = createBottomTabNavigator(
     Home: HomeScreen,
     News: NewsScreen,
     Mobility: MobilityScreen,
-    Settings: SettingScreen,
+    Wuhan2020: Wuhan2020Screen,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -30,8 +29,8 @@ const MainNavigator = createBottomTabNavigator(
           // Sometimes we want to add badges to some icons.
           // You can check the implementation below.
           // IconComponent = HomeIconWithBadge;
-        } else if (routeName === 'Settings') {
-          iconName = focused ? 'ios-list-box' : 'ios-list';
+        } else if (routeName === 'Wuhan2020') {
+          iconName = focused ? 'ios-heart' : 'ios-heart-empty';
         } else if (routeName === 'News') {
           iconName = 'ios-at';
         } else if (routeName === 'Mobility') {
@@ -48,12 +47,6 @@ const MainNavigator = createBottomTabNavigator(
   },
 );
 
-const AppWithNavigation = createAppContainer(MainNavigator);
-
-const App = () => (
-  <DataProvider>
-    <AppWithNavigation />
-  </DataProvider>
-);
+const App = createAppContainer(MainNavigator);
 
 export default App;
