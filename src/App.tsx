@@ -4,6 +4,7 @@ import HomeScreen from './Layouts/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Wuhan2020Screen from './Layouts/Wuhan2020';
 import NewsScreen from './Layouts/News';
+import AboutScreen from './Layouts/About';
 import MobilityScreen from './Layouts/Mobility';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import IconWMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,9 +15,10 @@ Ionicons.loadFont();
 const MainNavigator = createBottomTabNavigator(
   {
     Home: HomeScreen,
+    Wuhan2020: Wuhan2020Screen,
     News: NewsScreen,
     Mobility: MobilityScreen,
-    Wuhan2020: Wuhan2020Screen,
+    About: AboutScreen,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -35,6 +37,8 @@ const MainNavigator = createBottomTabNavigator(
           iconName = 'ios-at';
         } else if (routeName === 'Mobility') {
           iconName = 'ios-train';
+        } else if (routeName === 'About') {
+          iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
         }
 
         return <IconComponent name={iconName} size={25} color={tintColor} />;

@@ -2,11 +2,22 @@
 
 ## development
 
-`yarn start` => start bundler
-`yarn ios` => start iOS simulator
+* `yarn start` => start bundler
+* `yarn ios` => start iOS simulator
+* `yarn android` => start iOS simulator
 
+## production
+
+### Android
+
+`cd android && ./gradlew assembleRelease` and apk in `app/build/outputs/apk/release/`
+
+
+### iOS
+
+use Xcode
 
 ## TODOs
 
-* [ ] test on android
-* [ ] last tab
+* [x] test on android
+* [x] last tab
