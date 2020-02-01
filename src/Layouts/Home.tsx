@@ -11,6 +11,7 @@ import {
   Dimensions,
   ScrollView,
   RefreshControl,
+  StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
@@ -20,8 +21,14 @@ import Timeline from './Timeline';
 import RecommendationList from './RecommendationList';
 import { ECharts } from 'react-native-echarts-wrapper';
 import { wait } from '../utils';
+import { colors } from '../Theme';
 
 const { height, width } = Dimensions.get('window');
+const styles = StyleSheet.create({
+  buttonGroup: {
+    backgroundColor: colors.primary,
+  },
+});
 
 const piecesMap = {
   confirmedCount: [
@@ -54,11 +61,7 @@ const titleMap = {
   curedCount: '（治愈）',
   deadCount: '（致死）',
 };
-const filterList = [
-  'confirmedCount',
-  'curedCount',
-  'deadCount',
-];
+const filterList = ['confirmedCount', 'curedCount', 'deadCount'];
 
 function Map() {
   const { data, refresh } = useContext(DataContext);
@@ -225,6 +228,7 @@ function Map() {
                 />
               </View>
               <ButtonGroup
+                selectedButtonStyle={styles.buttonGroup}
                 onPress={setIndex}
                 selectedIndex={selectedIndex}
                 buttons={[

@@ -6,11 +6,14 @@ import {
   Alert,
   Modal,
   Dimensions,
+  StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { Button, ListItem } from 'react-native-elements';
 import { formatDate } from '../utils';
+import { colors } from '../Theme';
+import H1 from '../Components/H1';
 const { height } = Dimensions.get('window');
 
 type EntryPropsType = {
@@ -23,6 +26,12 @@ type EntryPropsType = {
   linkUrl: string;
   operator: string;
 };
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: colors.primary,
+  },
+});
 
 function Entry(props: EntryPropsType) {
   const [visible, setVisible] = useState(false);
@@ -63,6 +72,7 @@ function Entry(props: EntryPropsType) {
           </View>
           <View>
             <Button
+              buttonStyle={styles.button}
               title="关闭预览"
               onPress={() => {
                 setVisible(false);
@@ -78,15 +88,9 @@ function Entry(props: EntryPropsType) {
 function RecommendationList(props: { data: any }) {
   return (
     <View>
-      <Text
-        style={{
-          paddingLeft: 16,
-          paddingTop: 16,
-          fontSize: 22,
-          fontWeight: '800',
-        }}>
-        推荐阅读
-      </Text>
+      <View style={{ paddingLeft: 8 }}>
+        <H1 title="推荐阅读" />
+      </View>
       {props.data.map((entry: EntryPropsType) => (
         <Entry key={entry.id} {...entry} />
       ))}

@@ -18,6 +18,8 @@ import { ListItem, Button } from 'react-native-elements';
 import WebView from 'react-native-webview';
 import { uniqBy } from 'lodash';
 import { wait } from '../utils';
+import { colors } from '../Theme';
+import H1 from '../Components/H1';
 
 const { height } = Dimensions.get('window');
 
@@ -28,6 +30,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 22,
     fontWeight: '800',
+  },
+  button: {
+    backgroundColor: colors.primary,
   },
 });
 
@@ -85,6 +90,7 @@ function Entry(props: EntryPropsType) {
           </View>
           <View>
             <Button
+              buttonStyle={styles.button}
               title="关闭预览"
               onPress={() => {
                 setVisible(false);
@@ -113,7 +119,7 @@ function NewsScreen() {
   return (
     <StatusBarSafeLayout>
       <View style={styles.constainer}>
-        <Text style={styles.header}>新闻汇总</Text>
+        <H1 title="新闻汇总" />
       </View>
 
       <ScrollView

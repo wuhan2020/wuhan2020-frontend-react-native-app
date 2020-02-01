@@ -38,7 +38,9 @@ const MainNavigator = createBottomTabNavigator(
         } else if (routeName === 'Mobility') {
           iconName = 'ios-train';
         } else if (routeName === 'About') {
-          iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
+          iconName = focused
+            ? 'ios-information-circle'
+            : 'ios-information-circle-outline';
         }
 
         return <IconComponent name={iconName} size={25} color={tintColor} />;

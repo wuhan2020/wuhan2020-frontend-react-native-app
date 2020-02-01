@@ -16,26 +16,30 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useState } from 'react';
-import { ListItem, Button, Card } from 'react-native-elements';
+import { ListItem, Button } from 'react-native-elements';
 import WebView from 'react-native-webview';
 import { groupBy } from 'lodash';
-import { FlatList } from 'react-native-gesture-handler';
-import { formatTime, wait } from '../utils';
+import { wait } from '../utils';
+import { colors } from '../Theme';
+import H1 from '../Components/H1';
 
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   constainer: {},
+  button: {
+    backgroundColor: colors.primary,
+  },
   header: {
-    padding: 16,
-    fontSize: 22,
-    fontWeight: '800',
+    paddingLeft: 8,
+    paddingBottom: 8,
   },
   subheader: {
     padding: 16,
     fontSize: 18,
     fontWeight: '600',
-    color: '#717171',
+    color: colors.primary,
+    textAlign: 'center',
     paddingVertical: 8,
   },
 });
@@ -94,6 +98,7 @@ function Entry(props: EntryPropsType) {
           </View>
           <View>
             <Button
+              buttonStyle={styles.button}
               title="关闭预览"
               onPress={() => {
                 setVisible(false);
@@ -208,7 +213,7 @@ function MobilityScreen() {
 
   return (
     <StatusBarSafeLayout>
-      <View style={styles.constainer}>
+      <View>
         <SectionList
           refreshing={loading}
           keyExtractor={keyExtractor}
@@ -228,7 +233,9 @@ function MobilityScreen() {
           )}
           ListEmptyComponent={<ActivityIndicator size="large" color="red" />}
           ListHeaderComponent={
-            <Text style={styles.header}>确诊患者相同行程查询</Text>
+            <View style={styles.header}>
+              <H1 title="确诊患者相同行程查询" />
+            </View>
           }
         />
       </View>
@@ -259,6 +266,7 @@ function MobilityScreen() {
 
             <View>
               <Button
+                buttonStyle={styles.button}
                 title="关闭预览"
                 onPress={() => {
                   setSelection(null);

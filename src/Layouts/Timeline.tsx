@@ -5,11 +5,18 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  StyleSheet,
   Dimensions,
 } from 'react-native';
 import { Button, ListItem, Badge } from 'react-native-elements';
 import { formatTime } from '../utils';
 const { height } = Dimensions.get('window');
+import { colors } from '../Theme';
+import H1 from '../Components/H1';
+
+const styles = StyleSheet.create({
+  button: { backgroundColor: colors.primary },
+});
 
 type EntryPropsType = {
   latest: boolean;
@@ -88,6 +95,7 @@ function Entry(props: EntryPropsType) {
 
           <View>
             <Button
+              buttonStyle={styles.button}
               title="关闭预览"
               onPress={() => {
                 setVisible(false);
@@ -103,15 +111,9 @@ function Entry(props: EntryPropsType) {
 function Timeline(props: { data: any }) {
   return (
     <View>
-      <Text
-        style={{
-          paddingLeft: 16,
-          paddingTop: 16,
-          fontSize: 22,
-          fontWeight: '800',
-        }}>
-        最新新闻
-      </Text>
+      <View style={{ paddingLeft: 8 }}>
+        <H1 title="最新新闻" />
+      </View>
       {props.data.map((entry: EntryPropsType, i: number) => (
         <Entry key={entry.id} {...entry} latest={i === 0} />
       ))}
