@@ -47,7 +47,7 @@ const MainNavigator = createBottomTabNavigator(
       },
     }),
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
     },
     tabBarOptions: {
       activeTintColor: 'tomato',

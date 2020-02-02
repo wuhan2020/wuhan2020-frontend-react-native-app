@@ -134,6 +134,12 @@ function About() {
               }
             />
           </View>
+          <Divider style={styles.divider} />
+          <View>
+            <Text style={styles.header}>贡献者</Text>
+            <ListItem title="Fei" rightAvatar={<Text>程序</Text>} />
+            <ListItem title="Oliver Li" rightAvatar={<Text>iOS 测试</Text>} />
+          </View>
         </View>
       </ScrollView>
     </StatusBarSafeLayout>

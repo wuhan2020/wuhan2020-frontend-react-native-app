@@ -215,8 +215,8 @@ function MobilityScreen() {
     <StatusBarSafeLayout>
       <View>
         <SectionList
-          refreshing={loading}
           keyExtractor={keyExtractor}
+          refreshing={loading}
           refreshControl={
             <RefreshControl
               tintColor="pink"
