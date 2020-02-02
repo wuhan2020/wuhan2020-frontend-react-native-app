@@ -1,102 +1,99 @@
 import React, { useState } from 'react';
-import StatusBarSafeLayout from './StatusBarSafeLayout';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  RefreshControl,
-  Modal,
-  Dimensions,
-} from 'react-native';
-import useWuhan2020 from '../hooks/useWuhan2020';
-import H1 from '../Components/H1';
-import Hospital from '../Components/Hospital';
-import Loader from '../Components/Loader';
-import { wait } from '../utils';
-import { Button } from 'react-native-elements';
-import HospitalDetail from '../Components/HospitalDetail';
+import { FlatList, StyleSheet, View, Dimensions } from 'react-native';
+import { Button, ListItem, colors } from 'react-native-elements';
+
+import HospitalLayout from './Hospital';
+import LogisticLayout from './Logistic';
+import DonationLayout from './Donation';
+import HotelLayout from './Hotel';
+import ConsultationLayout from './Consultation';
+import { withNavigation } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  header: { paddingLeft: 8, paddingBottom: 8 },
+  title: { fontSize: 20, fontWeight: '600' },
 });
 
-function Wuhan2020() {
-  const [data, total, loading, fetchMore, refresh] = useWuhan2020(
-    'https://vuqjf9paihid.leanapp.cn/supplies/requirement',
-  );
-  const [refreshing, setRefreshing] = useState(false);
-  const [selected, setSelection] = useState<HospitalType | null>(null);
-
-  const hospitals: HospitalType[] = data || [];
-
-  function onRefresh() {
-    setRefreshing(true);
-    refresh();
-    wait(2000).then(() => {
-      setRefreshing(false);
-    });
-  }
-
-  function onClick(hospital: HospitalType) {
-    setSelection(hospital);
-  }
-  function renderItem({ item }: { item: HospitalType }) {
-    return <Hospital item={item} onClick={onClick} />;
-  }
-
+function ResourceList({ navigation }) {
   return (
-    <StatusBarSafeLayout>
-      <View style={styles.header}>
-        <H1 title="医院" />
-      </View>
-      <FlatList
-        refreshControl={
-          <RefreshControl
-            tintColor="pink"
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-        onMomentumScrollEnd={fetchMore}
-        keyExtractor={(item: HospitalType) => item.objectId}
-        data={hospitals}
-        renderItem={renderItem}
-        ListFooterComponent={loading ? <Loader /> : null}
+    <View>
+      <ListItem
+        titleStyle={styles.title}
+        key="hospital"
+        title="医院"
+        onPress={() => {
+          navigation.navigate({ routeName: 'Hospital' });
+        }}
+        chevron
+        bottomDivider
       />
-
-      <Modal
-        animationType="slide"
-        presentationStyle="formSheet"
-        transparent={false}
-        onDismiss={() => {
-          setSelection(null);
+      <ListItem
+        titleStyle={styles.title}
+        key="logistic"
+        title="物流"
+        onPress={() => {
+          navigation.navigate({ routeName: 'Logistic' });
         }}
-        onRequestClose={() => {
-          setSelection(null);
+        bottomDivider
+        chevron
+      />
+      <ListItem
+        titleStyle={styles.title}
+        key="donation"
+        title="捐款"
+        onPress={() => {
+          navigation.navigate({ routeName: 'Donation' });
         }}
-        visible={selected !== null}>
-        <View style={{ padding: 16, justifyContent: 'space-between' }}>
-          <View style={{ height: height - 150 }}>
-            {selected && <HospitalDetail item={selected} />}
-          </View>
-          <View>
-            <Button
-              title="关闭详情"
-              onPress={() => {
-                setSelection(null);
-              }}
-            />
-          </View>
-        </View>
-      </Modal>
-    </StatusBarSafeLayout>
+        bottomDivider
+        chevron
+      />
+      <ListItem
+        titleStyle={styles.title}
+        key="consultation"
+        title="义诊"
+        onPress={() => {
+          navigation.navigate({ routeName: 'Consultation' });
+        }}
+        bottomDivider
+        chevron
+      />
+      <ListItem
+        titleStyle={styles.title}
+        key="hotel"
+        title="指定接待酒店"
+        onPress={() => {
+          navigation.navigate({ routeName: 'Hotel' });
+        }}
+        chevron
+      />
+    </View>
   );
 }
 
-Wuhan2020.navigationOptions = {
+ResourceList.navigationOptions = {
+  title: '物资分类',
+};
+
+const MyStack = createStackNavigator(
+  {
+    ResourceList: withNavigation(ResourceList),
+    Hospital: HospitalLayout,
+    Logistic: LogisticLayout,
+    Donation: DonationLayout,
+    Consultation: ConsultationLayout,
+    Hotel: HotelLayout,
+  },
+  {
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+);
+
+MyStack.navigationOptions = {
   title: 'Wuhan2020',
 };
 
-export default Wuhan2020;
+export default MyStack;

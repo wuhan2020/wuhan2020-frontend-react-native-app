@@ -70,7 +70,7 @@ function HospitalDetail({ item }: PropTypes) {
         <Text>用户名：{creator.username}</Text>
         <Text>
           电话：{creator.mobilePhoneNumber} (
-          {creator.mobilePhoneVerified ? '以验证' : '未验证'})
+          {creator.mobilePhoneVerified ? '已验证' : '未验证'})
         </Text>
       </View>
       <View style={styles.container}>

@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
   h1: {
     color: colors.primary,
     paddingTop: 16,
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '500',
   },
 });
 
-function H2(props: PropTypes) {
+function H3(props: PropTypes) {
   return <Text style={styles.h1}>{props.title}</Text>;
 }
 
-export default H2;
+export default H3;
