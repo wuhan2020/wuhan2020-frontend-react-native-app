@@ -70,8 +70,11 @@ function Entry(props: EntryPropsType) {
         animationType="fade"
         presentationStyle="pageSheet"
         visible={visible}
+        onDismiss={() => {
+          setVisible(false);
+        }}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          setVisible(false);
         }}>
         <View style={{ padding: 16, justifyContent: 'space-between' }}>
           <View style={{ height: height - 150 }}>

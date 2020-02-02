@@ -22,6 +22,7 @@ import { groupBy } from 'lodash';
 import { wait } from '../utils';
 import { colors } from '../Theme';
 import H1 from '../Components/H1';
+import WebViewModal from '../Components/Webview';
 
 const { height } = Dimensions.get('window');
 
@@ -51,65 +52,6 @@ type EntryPropsType = {
   sendTime: string;
   fromName: string;
 };
-
-function Entry(props: EntryPropsType) {
-  const [visible, setVisible] = useState(false);
-  const [loadingWebview, setLoading] = useState(true);
-  return (
-    <View>
-      <ListItem
-        onPress={() => setVisible(true)}
-        Component={TouchableOpacity}
-        title={
-          <Text style={{ fontWeight: '800' }}>
-            {props.content.slice(0, 50)}
-          </Text>
-        }
-        subtitle={
-          <View
-            style={{
-              paddingTop: 4,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={{ fontSize: 12 }}>时间： {props.sendTime}</Text>
-            <Text style={{ fontSize: 12 }}>来源： {props.fromName}</Text>
-          </View>
-        }
-        rightIcon={{ name: 'unfold-more' }}
-      />
-      <Modal
-        animationType="fade"
-        presentationStyle="pageSheet"
-        visible={visible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}>
-        <View style={{ padding: 16, justifyContent: 'space-between' }}>
-          <View style={{ height: height - 150 }}>
-            {loadingWebview ? (
-              <ActivityIndicator size="large" color="red" />
-            ) : null}
-            <WebView
-              onLoad={() => setLoading(true)}
-              onLoadEnd={() => setLoading(false)}
-              source={{ uri: props.url }}
-            />
-          </View>
-          <View>
-            <Button
-              buttonStyle={styles.button}
-              title="关闭预览"
-              onPress={() => {
-                setVisible(false);
-              }}
-            />
-          </View>
-        </View>
-      </Modal>
-    </View>
-  );
-}
 
 const typeMap = {
   1: { label: '飞机' },
@@ -155,10 +97,50 @@ type EntryType = {
   updated_at: string;
 };
 
+function Mobility({ item }: { item: EntryType }) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <View>
+      <ListItem
+        onPress={() => setVisible(true)}
+        title={
+          <Text
+            style={{
+              fontWeight: '800',
+            }}>{`${item.t_pos_start} - ${item.t_pos_end}`}</Text>
+        }
+        subtitle={
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <Text style={{ fontSize: 12 }}>{item.t_no}</Text>
+              <Text style={{ fontSize: 12 }}>{item.who}</Text>
+            </View>
+            {Boolean(item.t_memo) && (
+              <Text style={{ color: '#717171' }}>({item.t_memo})</Text>
+            )}
+          </View>
+        }
+        leftAvatar={
+          <View style={{ width: 50 }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold' }}>
+              {typeMap[item.t_type].label}
+            </Text>
+          </View>
+        }
+        rightIcon={{ name: 'unfold-more' }}
+      />
+      <WebViewModal title={`${item.t_pos_start} - ${item.t_pos_end}`} uri={item.source} visible={visible} onClose={() => setVisible(false)}/>
+    </View>
+  );
+}
+
 function MobilityScreen() {
   const { data, loading, refresh } = useContext(MobilityDataContext);
-  const [selection, setSelection] = useState(null);
-  const [loadingWebview, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   function keyExtractor(item: EntryType) {
@@ -166,42 +148,7 @@ function MobilityScreen() {
   }
 
   function renderItem({ item }: { item: EntryType }) {
-    return (
-      <View>
-        <ListItem
-          onPress={() => setSelection(item)}
-          title={
-            <Text
-              style={{
-                fontWeight: '800',
-              }}>{`${item.t_pos_start} - ${item.t_pos_end}`}</Text>
-          }
-          subtitle={
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text style={{ fontSize: 12 }}>{item.t_no}</Text>
-                <Text style={{ fontSize: 12 }}>{item.who}</Text>
-              </View>
-              {Boolean(item.t_memo) && (
-                <Text style={{ color: '#717171' }}>({item.t_memo})</Text>
-              )}
-            </View>
-          }
-          leftAvatar={
-            <View style={{ width: 50 }}>
-              <Text style={{ fontSize: 13, fontWeight: 'bold' }}>
-                {typeMap[item.t_type].label}
-              </Text>
-            </View>
-          }
-          rightIcon={{ name: 'unfold-more' }}
-        />
-      </View>
-    );
+    return <Mobility item={item} />;
   }
 
   const onRefresh = useCallback(() => {
@@ -239,44 +186,6 @@ function MobilityScreen() {
           }
         />
       </View>
-
-      {selection && (
-        <Modal
-          animationType="fade"
-          presentationStyle="pageSheet"
-          visible={selection !== null}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{ padding: 16, justifyContent: 'space-between' }}>
-            <View style={{ height: height - 150 }}>
-              <Text
-                style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 20 }}>
-                {`${selection.t_pos_start} - ${selection.t_pos_end}`}
-              </Text>
-              {loadingWebview ? (
-                <ActivityIndicator size="large" color="red" />
-              ) : null}
-              <WebView
-                onLoad={() => setLoading(true)}
-                onLoadEnd={() => setLoading(false)}
-                source={{ uri: selection.source }}
-              />
-            </View>
-
-            <View>
-              <Button
-                buttonStyle={styles.button}
-                title="关闭预览"
-                onPress={() => {
-                  setSelection(null);
-                  setLoading(true);
-                }}
-              />
-            </View>
-          </View>
-        </Modal>
-      )}
     </StatusBarSafeLayout>
   );
 }
