@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import StatusBarSafeLayout from './StatusBarSafeLayout';
-import { FlatList, StyleSheet, RefreshControl, Dimensions } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import Logistic from '../Components/Logistic';
 import Loader from '../Components/Loader';
 import { wait } from '../utils';
 import useData from '../hooks/useData';
 
-const { height } = Dimensions.get('window');
-
-const styles = StyleSheet.create({});
-
 function LogisticLayout() {
   const [data, total, loading, fetchMore, refresh] = useData('logistics');
   const [refreshing, setRefreshing] = useState(false);
-  const [selected, setSelection] = useState<LogisticType | null>(null);
 
-  const logistics: LogisticType[] = data || [];
+  const logistics: DonationType[] = data || [];
 
   function onRefresh() {
     setRefreshing(true);
@@ -25,17 +20,12 @@ function LogisticLayout() {
     });
   }
 
-  function onClick(logistic: LogisticType) {
-    setSelection(logistic);
-  }
-
-  function renderItem({ item }: { item: LogisticType }) {
-    return <Logistic item={item} onClick={onClick} />;
+  function renderItem({ item }: { item: DonationType }) {
+    return <Logistic item={item} />;
   }
 
   return (
     <StatusBarSafeLayout>
-
       <FlatList
         refreshControl={
           <RefreshControl
@@ -45,7 +35,7 @@ function LogisticLayout() {
           />
         }
         onMomentumScrollEnd={fetchMore}
-        keyExtractor={(item: LogisticType) => item.objectId}
+        keyExtractor={(item: DonationType) => String(item.id)}
         data={logistics}
         renderItem={renderItem}
         ListFooterComponent={loading ? <Loader /> : null}

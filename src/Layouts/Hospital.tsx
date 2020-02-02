@@ -15,8 +15,6 @@ import { wait } from '../utils';
 import { Button } from 'react-native-elements';
 import HospitalDetail from '../Components/HospitalDetail';
 
-const { height } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   header: { paddingLeft: 8, paddingBottom: 8 },
 });

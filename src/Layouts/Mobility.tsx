@@ -134,7 +134,12 @@ function Mobility({ item }: { item: EntryType }) {
         }
         rightIcon={{ name: 'unfold-more' }}
       />
-      <WebViewModal title={`${item.t_pos_start} - ${item.t_pos_end}`} uri={item.source} visible={visible} onClose={() => setVisible(false)}/>
+      <WebViewModal
+        title={`${item.t_pos_start} - ${item.t_pos_end}`}
+        uri={item.source}
+        visible={visible}
+        onClose={() => setVisible(false)}
+      />
     </View>
   );
 }

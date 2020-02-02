@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import logisticData from '../fixture/logistics';
+import donationData from '../fixture/donations';
 
 function useData(url: string) {
   const [data, setData] = useState(null);
@@ -13,6 +14,9 @@ function useData(url: string) {
       if (url === 'logistics') {
         setData(logisticData);
         setTotal(logisticData.length);
+      } else if (url === 'donations') {
+        setData(donationData);
+        setTotal(donationData.length);
       } else {
         setData([]);
       }

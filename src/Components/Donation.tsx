@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { colors } from '../Theme';
-import moment from 'moment';
-import ContactList from './ContactList';
-import Remark from './Remark';
 import WebViewModal from './Webview';
+import H3 from './H3';
 
 type PropTypes = {
-  item: LogisticType;
+  item: DonationType;
 };
 
 const styles = StyleSheet.create({
@@ -23,16 +21,35 @@ const styles = StyleSheet.create({
   },
 });
 
-function Logistic({ item }: PropTypes) {
+function Donation({ item }: PropTypes) {
   const [visible, setVisible] = useState(false);
 
+  const infoSplit = item.info
+    .split('\r\n')
+    .concat(item.info.split('\n'))
+    .map(s => s.trim())
+    .filter(Boolean);
+
   return (
-    <Card title={`${item.name} - ${item.area}`}>
-      <View style={styles.subtitleContainer}>
-        <Text style={styles.subtitle}>发布于{moment(item.date).fromNow()}</Text>
+    <Card title={`${item.name}`}>
+      <View>
+        <H3 title="方式" />
+        <Text style={{ marginVertical: 5 }}>{item.method}</Text>
       </View>
-      <ContactList data={item.contacts} />
-      <Remark remark={item.remark} />
+      <View>
+        <H3 title="状态" />
+        <Text style={{ marginVertical: 5 }}>{item.status}</Text>
+      </View>
+      <View>
+        <H3 title="内容" />
+        <View>
+          {(infoSplit || []).map((line, i) => (
+            <Text key={i}>{line}</Text>
+          ))}
+        </View>
+        <Text style={{ marginVertical: 5 }}>{item.status}</Text>
+      </View>
+
       <View style={{ paddingHorizontal: 30, paddingTop: 10 }}>
         <Button
           type="outline"
@@ -41,7 +58,7 @@ function Logistic({ item }: PropTypes) {
         />
         <WebViewModal
           uri={item.url}
-          title={`${item.name} - ${item.area}`}
+          title={`${item.name}`}
           visible={visible}
           onClose={() => setVisible(false)}
         />
@@ -50,4 +67,4 @@ function Logistic({ item }: PropTypes) {
   );
 }
 
-export default Logistic;
+export default Donation;
