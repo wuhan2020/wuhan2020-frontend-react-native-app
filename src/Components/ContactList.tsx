@@ -19,13 +19,15 @@ function ContactList(props: PropTypes) {
   const { data } = props;
   return (
     <View>
-      <H3 title="联系人" />
-      {data.map(contact => (
-        <View key={contact.tel} style={styles.horizontalContainer}>
-          <Text>{contact.name || '未提供姓名'}</Text>
-          <Text>电话：{contact.tel}</Text>
-        </View>
-      ))}
+      <H3 title={`联系人${data.length ? '' : '（无）'}`} />
+      {data.length
+        ? data.map(contact => (
+            <View key={contact.tel} style={styles.horizontalContainer}>
+              <Text>{contact.name || '未提供姓名'}</Text>
+              <Text>电话：{contact.tel}</Text>
+            </View>
+          ))
+        : null}
     </View>
   );
 }
