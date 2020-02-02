@@ -46,6 +46,9 @@ const MainNavigator = createBottomTabNavigator(
         return <IconComponent name={iconName} size={25} color={tintColor} />;
       },
     }),
+    navigationOptions: {
+      gesturesEnabled: false
+    },
     tabBarOptions: {
       activeTintColor: 'tomato',
       inactiveTintColor: 'gray',
