@@ -1,13 +1,14 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Modal, Dimensions } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { colors } from '../Theme';
 import Supply from './Supply';
 import moment from 'moment';
+import HospitalDetail from './HospitalDetail';
+const { height } = Dimensions.get('window');
 
 type PropTypes = {
   item: HospitalType;
-  onClick: (hospital: HospitalType) => void;
 };
 
 const styles = StyleSheet.create({
@@ -29,8 +30,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function Hospital({ item, onClick }: PropTypes) {
+function Hospital({ item }: PropTypes) {
   const { supplies } = item;
+  const [visible, setVisible] = useState(false);
   return (
     <Card title={item.hospital}>
       <View style={styles.subtitleContainer}>
@@ -52,7 +54,36 @@ function Hospital({ item, onClick }: PropTypes) {
         </View>
       </View>
       <View style={{ paddingHorizontal: 30, paddingTop: 10 }}>
-        <Button type="outline" title="查看详情" onPress={() => onClick(item)} />
+        <Button
+          type="outline"
+          title="查看详情"
+          onPress={() => setVisible(true)}
+        />
+        <Modal
+          animationType="fade"
+          presentationStyle="formSheet"
+          transparent={false}
+          onDismiss={() => {
+            setVisible(false);
+          }}
+          onRequestClose={() => {
+            setVisible(false);
+          }}
+          visible={visible}>
+          <View style={{ padding: 16, justifyContent: 'space-between' }}>
+            <View style={{ height: height - 150 }}>
+              <HospitalDetail item={item} />
+            </View>
+            <View>
+              <Button
+                title="关闭详情"
+                onPress={() => {
+                  setVisible(false);
+                }}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     </Card>
   );

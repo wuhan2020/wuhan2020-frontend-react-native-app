@@ -26,7 +26,6 @@ function HospitalLayout() {
     'https://vuqjf9paihid.leanapp.cn/supplies/requirement',
   );
   const [refreshing, setRefreshing] = useState(false);
-  const [selected, setSelection] = useState<HospitalType | null>(null);
 
   const hospitals: HospitalType[] = data || [];
 
@@ -38,11 +37,8 @@ function HospitalLayout() {
     });
   }
 
-  function onClick(hospital: HospitalType) {
-    setSelection(hospital);
-  }
   function renderItem({ item }: { item: HospitalType }) {
-    return <Hospital item={item} onClick={onClick} />;
+    return <Hospital item={item} />;
   }
 
   return (
@@ -67,32 +63,6 @@ function HospitalLayout() {
           ) : null
         }
       />
-
-      <Modal
-        animationType="slide"
-        presentationStyle="formSheet"
-        transparent={false}
-        onDismiss={() => {
-          setSelection(null);
-        }}
-        onRequestClose={() => {
-          setSelection(null);
-        }}
-        visible={selected !== null}>
-        <View style={{ padding: 16, justifyContent: 'space-between' }}>
-          <View style={{ height: height - 150 }}>
-            {selected && <HospitalDetail item={selected} />}
-          </View>
-          <View>
-            <Button
-              title="关闭详情"
-              onPress={() => {
-                setSelection(null);
-              }}
-            />
-          </View>
-        </View>
-      </Modal>
     </StatusBarSafeLayout>
   );
 }
