@@ -31,9 +31,7 @@ function WebViewModal({
       animationType="fade"
       presentationStyle="pageSheet"
       visible={visible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-      }}>
+      onRequestClose={onClose}>
       <View style={{ padding: 16, justifyContent: 'space-between' }}>
         <View style={{ height: height - 150 }}>
           <H1 title={title} />

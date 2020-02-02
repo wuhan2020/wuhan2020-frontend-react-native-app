@@ -57,7 +57,7 @@ function Entry(props: EntryPropsType) {
         presentationStyle="pageSheet"
         visible={visible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          setVisible(false);
         }}>
         <View style={{ padding: 16, justifyContent: 'space-between' }}>
           {loadingWebview ? (
