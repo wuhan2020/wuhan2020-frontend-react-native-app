@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import logisticData from '../fixture/logistics';
 import donationData from '../fixture/donations';
-import consultationData from '../fixture/consultation';
+import consultationData from '../fixture/consultations';
+import hotelData from '../fixture/hotels';
 
 function useData(url: string) {
   const [data, setData] = useState(null);
@@ -21,6 +22,9 @@ function useData(url: string) {
       } else if (url === 'consultations') {
         setData(consultationData);
         setTotal(consultationData.length);
+      } else if (url === 'hotels') {
+        setData(hotelData);
+        setTotal(hotelData.length);
       } else {
         setData([]);
       }

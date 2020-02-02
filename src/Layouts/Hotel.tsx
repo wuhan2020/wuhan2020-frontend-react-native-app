@@ -1,12 +1,57 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useState } from 'react';
+import StatusBarSafeLayout from './StatusBarSafeLayout';
+import { FlatList, RefreshControl, View } from 'react-native';
+import Hotel from '../Components/Hotel';
+import Loader from '../Components/Loader';
+import { wait } from '../utils';
+import useData from '../hooks/useData';
 
-function List() {
-  return <Text>Hotel</Text>;
+function HotelLayout() {
+  const [data, total, loading, fetchMore, refresh] = useData('hotels');
+  const [refreshing, setRefreshing] = useState(false);
+
+  const hotels: HotelType[] = data || [];
+
+  function onRefresh() {
+    setRefreshing(true);
+    refresh();
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
+  }
+
+  function renderItem({ item }: { item: HotelType }) {
+    return <Hotel item={item} />;
+  }
+
+  return (
+    <StatusBarSafeLayout>
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            tintColor="pink"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+        onMomentumScrollEnd={fetchMore}
+        keyExtractor={(item: HotelType) => String(item.id)}
+        data={hotels}
+        renderItem={renderItem}
+        ListFooterComponent={
+          loading ? (
+            <View style={{ paddingTop: 20 }}>
+              <Loader />
+            </View>
+          ) : null
+        }
+      />
+    </StatusBarSafeLayout>
+  );
 }
 
-List.navigationOptions = {
+HotelLayout.navigationOptions = {
   title: '指定接待酒店',
 };
 
-export default List;
+export default HotelLayout;
