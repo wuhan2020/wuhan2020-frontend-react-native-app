@@ -1,46 +1,43 @@
 import { useState, useEffect } from 'react';
-import logisticData from '../fixture/logistics';
-import donationData from '../fixture/donations';
-import consultationData from '../fixture/consultations';
-import hotelData from '../fixture/hotels';
 
 function useData(url: string) {
   const [data, setData] = useState(null);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [pageIndex, setPageIndex] = useState(1);
+  const [count, setCount] = useState(Date.now());
+
+  const baseUrl =
+    'https://raw.githubusercontent.com/wuhan2020/wuhan2020/master/data/fe/';
 
   useEffect(
     function() {
       setLoading(true);
+      let fullUrl = '';
       if (url === 'logistics') {
-        setData(logisticData);
-        setTotal(logisticData.length);
+        fullUrl = `${baseUrl}/logistical/data.json`;
       } else if (url === 'donations') {
-        setData(donationData);
-        setTotal(donationData.length);
+        fullUrl = `${baseUrl}/donation/data.json`;
       } else if (url === 'consultations') {
-        setData(consultationData);
-        setTotal(consultationData.length);
+        fullUrl = `${baseUrl}/clinic/data.json`;
       } else if (url === 'hotels') {
-        setData(hotelData);
-        setTotal(hotelData.length);
-      } else {
-        setData([]);
+        fullUrl = `${baseUrl}/travel_hotel/data.json`;
       }
+
+      fetch(fullUrl)
+        .then(d => d.json())
+        .then(json => {
+          setData(json);
+          setTotal(json.length);
+        });
     },
-    [pageIndex],
+    [count],
   );
 
-  function fetchMore() {
-    setPageIndex(pageIndex + 1);
-  }
-
   function refresh() {
-    setPageIndex(1);
+    setCount(count + 1);
   }
 
-  return [data, total, loading, fetchMore, refresh];
+  return [data, total, loading, refresh];
 }
 
 export default useData;

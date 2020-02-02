@@ -133,13 +133,20 @@ function About() {
                 </Text>
               }
             />
+            <ListItem
+              title="作者"
+              rightAvatar={
+                <Text
+                  style={styles.link}
+                  onPress={() =>
+                    Linking.openURL('https://github.com/geastwood')
+                  }>
+                  geastwood（飞）
+                </Text>
+              }
+            />
           </View>
           <Divider style={styles.divider} />
-          <View>
-            <Text style={styles.header}>贡献者</Text>
-            <ListItem title="Fei" rightAvatar={<Text>程序</Text>} />
-            <ListItem title="Oliver Li" rightAvatar={<Text>iOS 测试</Text>} />
-          </View>
         </View>
       </ScrollView>
     </StatusBarSafeLayout>
