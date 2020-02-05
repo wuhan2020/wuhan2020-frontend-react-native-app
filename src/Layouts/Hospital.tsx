@@ -14,15 +14,14 @@ import Loader from '../Components/Loader';
 import { wait } from '../utils';
 import { Button } from 'react-native-elements';
 import HospitalDetail from '../Components/HospitalDetail';
+import { Hospital as HospitalType} from 'wh-data-client';
 
 const styles = StyleSheet.create({
   header: { paddingLeft: 8, paddingBottom: 8 },
 });
 
 function HospitalLayout() {
-  const [data, total, loading, fetchMore, refresh] = useWuhan2020(
-    'https://vuqjf9paihid.leanapp.cn/supplies/requirement',
-  );
+  const [data, total, loading, refresh] = useWuhan2020('hospital');
   const [refreshing, setRefreshing] = useState(false);
 
   const hospitals: HospitalType[] = data || [];
@@ -49,7 +48,6 @@ function HospitalLayout() {
             onRefresh={onRefresh}
           />
         }
-        onMomentumScrollEnd={fetchMore}
         keyExtractor={(item: HospitalType) => item.objectId}
         data={hospitals}
         renderItem={renderItem}

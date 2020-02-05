@@ -1,12 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Card } from 'react-native-elements';
 import { colors } from '../Theme';
 import Supply from './Supply';
-import moment from 'moment';
 import H1 from './H1';
 import H2 from './H2';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Hospital as HospitalType } from 'wh-data-client';
 
 type PropTypes = {
   item: HospitalType;
@@ -33,16 +32,16 @@ const styles = StyleSheet.create({
 });
 
 function HospitalDetail({ item }: PropTypes) {
-  const { supplies, contacts, creator } = item;
+  const { supplies, contacts } = item;
 
   return (
     <ScrollView>
-      <H1 title={item.hospital} />
+      <H1 title={item.name} />
       <View style={styles.horizontalContainer}>
-        <Text style={[styles.subtitle, { fontSize: 14 }]}>{item.city}</Text>
-        <Text style={styles.subtitle}>
-          发布于{moment(item.createdAt).fromNow()}
+        <Text style={[styles.subtitle, { fontSize: 14 }]}>
+          {`${item.city} - ${item.province || ''}`}
         </Text>
+        <Text style={styles.subtitle}>{item.district}</Text>
       </View>
       <View style={styles.container}>
         <View style={{ paddingVertical: 4 }}>
@@ -51,8 +50,8 @@ function HospitalDetail({ item }: PropTypes) {
         <View>
           {contacts.map(contact => (
             <View style={styles.horizontalContainer}>
-              <Text>{contact.name}</Text>
-              <Text>电话：{contact.phone}</Text>
+              <Text>{contact.name || '无'}</Text>
+              <Text>电话：{contact.tel}</Text>
             </View>
           ))}
         </View>
@@ -62,16 +61,6 @@ function HospitalDetail({ item }: PropTypes) {
           <H2 title="地址" />
         </View>
         <Text>{item.address}</Text>
-      </View>
-      <View style={styles.container}>
-        <View style={{ paddingVertical: 4 }}>
-          <H2 title="创建人" />
-        </View>
-        <Text>用户名：{creator.username}</Text>
-        <Text>
-          电话：{creator.mobilePhoneNumber} (
-          {creator.mobilePhoneVerified ? '已验证' : '未验证'})
-        </Text>
       </View>
       <View style={styles.container}>
         <View style={{ paddingVertical: 4 }}>

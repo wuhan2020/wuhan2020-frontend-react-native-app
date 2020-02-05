@@ -1,38 +1,35 @@
 import { useState, useEffect } from 'react';
+import { WhDataClient, DataType } from 'wh-data-client';
 
-function useWuhan2020(url: string) {
-  const [data, setData] = useState(null);
+function useWuhan2020<T>(resource: DataType) {
+  const [data, setData] = useState<T[] | null>(null);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [pageIndex, setPageIndex] = useState(1);
+  const [count, setCount] = useState(Date.now());
 
   useEffect(
     function() {
       setLoading(true);
-      fetch(`${url}?pageIndex=${pageIndex}&pageSize=10`)
-        .then(d => d.json())
-        .then(json => {
-          if (pageIndex > 1) {
-            setData((data || []).concat(json.data));
-          } else {
-            setData(json.data);
-          }
-          setTotal(json.count);
-          setLoading(false);
-        });
+      const client = new WhDataClient({
+        baseUrl: 'http://q519ubblo.bkt.clouddn.com/data/',
+        fePrefix: 'fe/',
+        indexFile: 'index.json',
+      });
+
+      client.getData<T>(resource).then(t => {
+        setData(t);
+        setTotal(t.length);
+        setLoading(false);
+      });
     },
-    [pageIndex],
+    [count],
   );
 
-  function fetchMore() {
-    setPageIndex(pageIndex + 1);
-  }
-
   function refresh() {
-    setPageIndex(1);
+    setCount(count + 1);
   }
 
-  return [data, total, loading, fetchMore, refresh];
+  return [data, total, loading, refresh];
 }
 
 export default useWuhan2020;

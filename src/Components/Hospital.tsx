@@ -6,6 +6,7 @@ import Supply from './Supply';
 import moment from 'moment';
 import HospitalDetail from './HospitalDetail';
 const { height } = Dimensions.get('window');
+import { Hospital as HospitalType } from 'wh-data-client';
 
 type PropTypes = {
   item: HospitalType;
@@ -34,12 +35,12 @@ function Hospital({ item }: PropTypes) {
   const { supplies } = item;
   const [visible, setVisible] = useState(false);
   return (
-    <Card title={item.hospital}>
+    <Card title={item.name}>
       <View style={styles.subtitleContainer}>
-        <Text style={[styles.subtitle, { fontSize: 14 }]}>{item.city}</Text>
-        <Text style={styles.subtitle}>
-          发布于{moment(item.createdAt).fromNow()}
+        <Text style={[styles.subtitle, { fontSize: 14 }]}>
+          {item.city} - {item.province || ''}
         </Text>
+        <Text style={styles.subtitle}>{item.district}</Text>
       </View>
       <View style={styles.supplyContainer}>
         <View>
