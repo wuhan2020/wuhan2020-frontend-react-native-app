@@ -4,10 +4,10 @@ import { FlatList, RefreshControl, View } from 'react-native';
 import Donation from '../Components/Donation';
 import Loader from '../Components/Loader';
 import { wait } from '../utils';
-import useData from '../hooks/useData';
+import useWuhan2020, { Donation as DonationType } from '../hooks/useWuhan2020';
 
 function DonationLayout() {
-  const [data, total, loading, fetchMore, refresh] = useData('donations');
+  const [data, , loading, refresh] = useWuhan2020<DonationType>('donation');
   const [refreshing, setRefreshing] = useState(false);
 
   const donations: DonationType[] = data || [];
@@ -34,7 +34,6 @@ function DonationLayout() {
             onRefresh={onRefresh}
           />
         }
-        onMomentumScrollEnd={fetchMore}
         keyExtractor={(item: DonationType) => String(item.id)}
         data={donations}
         renderItem={renderItem}

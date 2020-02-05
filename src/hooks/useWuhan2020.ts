@@ -33,3 +33,4 @@ function useWuhan2020<T>(resource: DataType) {
 }
 
 export default useWuhan2020;
+export * from 'wh-data-client';
