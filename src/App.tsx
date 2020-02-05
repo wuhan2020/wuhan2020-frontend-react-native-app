@@ -3,7 +3,6 @@ import { createAppContainer } from 'react-navigation';
 import HomeScreen from './Layouts/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Wuhan2020Screen from './Layouts/Wuhan2020';
-import NewsScreen from './Layouts/News';
 import AboutScreen from './Layouts/About';
 import MobilityScreen from './Layouts/Mobility';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -16,7 +15,7 @@ const MainNavigator = createBottomTabNavigator(
   {
     Home: HomeScreen,
     Wuhan2020: Wuhan2020Screen,
-    News: NewsScreen,
+    // News: NewsScreen,
     Mobility: MobilityScreen,
     About: AboutScreen,
   },

@@ -4,13 +4,13 @@ import { FlatList, RefreshControl, View } from 'react-native';
 import Consultation from '../Components/Consultation';
 import Loader from '../Components/Loader';
 import { wait } from '../utils';
-import useData from '../hooks/useData';
+import useWuhan2020, { Clinic } from '../hooks/useWuhan2020';
 
 function ConsultationLayout() {
-  const [data, total, loading, fetchMore, refresh] = useData('consultations');
+  const [data, , loading, refresh] = useWuhan2020<Clinic>('clinic');
   const [refreshing, setRefreshing] = useState(false);
 
-  const consultations: DonationType[] = data || [];
+  const clinics: Clinic[] = data || [];
 
   function onRefresh() {
     setRefreshing(true);
@@ -20,7 +20,7 @@ function ConsultationLayout() {
     });
   }
 
-  function renderItem({ item }: { item: DonationType }) {
+  function renderItem({ item }: { item: Clinic }) {
     return <Consultation item={item} />;
   }
 
@@ -34,9 +34,8 @@ function ConsultationLayout() {
             onRefresh={onRefresh}
           />
         }
-        onMomentumScrollEnd={fetchMore}
-        keyExtractor={(item: DonationType) => String(item.id)}
-        data={consultations}
+        keyExtractor={(item: Clinic) => String(item.id)}
+        data={clinics}
         renderItem={renderItem}
         ListFooterComponent={
           loading ? (

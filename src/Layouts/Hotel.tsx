@@ -4,10 +4,10 @@ import { FlatList, RefreshControl, View } from 'react-native';
 import Hotel from '../Components/Hotel';
 import Loader from '../Components/Loader';
 import { wait } from '../utils';
-import useData from '../hooks/useData';
+import useWuhan2020, { TravelHotel } from '../hooks/useWuhan2020';
 
 function HotelLayout() {
-  const [data, total, loading, fetchMore, refresh] = useData('hotels');
+  const [data, , loading, refresh] = useWuhan2020<TravelHotel>('travel_hotel');
   const [refreshing, setRefreshing] = useState(false);
 
   const hotels: HotelType[] = data || [];
@@ -34,7 +34,6 @@ function HotelLayout() {
             onRefresh={onRefresh}
           />
         }
-        onMomentumScrollEnd={fetchMore}
         keyExtractor={(item: HotelType) => String(item.id)}
         data={hotels}
         renderItem={renderItem}
