@@ -23,16 +23,6 @@ type Wuhan2020ContactType = {
   tel: string;
 };
 
-type LogisticType = {
-  id: number;
-  name: string;
-  area: string;
-  date: string;
-  url: string;
-  remark: string;
-  contacts: Wuhan2020ContactType[];
-};
-
 type DonationType = {
   id: number;
   name: string;

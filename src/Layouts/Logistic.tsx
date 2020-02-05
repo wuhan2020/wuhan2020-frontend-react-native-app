@@ -4,13 +4,14 @@ import { FlatList, RefreshControl } from 'react-native';
 import Logistic from '../Components/Logistic';
 import Loader from '../Components/Loader';
 import { wait } from '../utils';
-import useData from '../hooks/useData';
+import useWuhan2020 from '../hooks/useWuhan2020';
+import { Logistical as LogisticalType } from 'wh-data-client';
 
 function LogisticLayout() {
-  const [data, total, loading, fetchMore, refresh] = useData('logistics');
+  const [data, , loading, refresh] = useWuhan2020<LogisticalType>('logistical');
   const [refreshing, setRefreshing] = useState(false);
 
-  const logistics: DonationType[] = data || [];
+  const logistics: LogisticalType[] = data || [];
 
   function onRefresh() {
     setRefreshing(true);
@@ -20,7 +21,7 @@ function LogisticLayout() {
     });
   }
 
-  function renderItem({ item }: { item: DonationType }) {
+  function renderItem({ item }: { item: LogisticalType }) {
     return <Logistic item={item} />;
   }
 
@@ -29,13 +30,12 @@ function LogisticLayout() {
       <FlatList
         refreshControl={
           <RefreshControl
-            tintColor="pink"
+            tintColor="red"
             refreshing={refreshing}
             onRefresh={onRefresh}
           />
         }
-        onMomentumScrollEnd={fetchMore}
-        keyExtractor={(item: DonationType) => String(item.id)}
+        keyExtractor={(item: LogisticalType) => String(item.id)}
         data={logistics}
         renderItem={renderItem}
         ListFooterComponent={loading ? <Loader /> : null}

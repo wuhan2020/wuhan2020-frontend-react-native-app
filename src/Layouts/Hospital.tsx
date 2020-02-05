@@ -1,27 +1,14 @@
 import React, { useState } from 'react';
 import StatusBarSafeLayout from './StatusBarSafeLayout';
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  RefreshControl,
-  Modal,
-  Dimensions,
-} from 'react-native';
+import { FlatList, View, RefreshControl } from 'react-native';
 import useWuhan2020 from '../hooks/useWuhan2020';
 import Hospital from '../Components/Hospital';
 import Loader from '../Components/Loader';
 import { wait } from '../utils';
-import { Button } from 'react-native-elements';
-import HospitalDetail from '../Components/HospitalDetail';
-import { Hospital as HospitalType} from 'wh-data-client';
-
-const styles = StyleSheet.create({
-  header: { paddingLeft: 8, paddingBottom: 8 },
-});
+import { Hospital as HospitalType } from 'wh-data-client';
 
 function HospitalLayout() {
-  const [data, total, loading, refresh] = useWuhan2020('hospital');
+  const [data, , loading, refresh] = useWuhan2020<HospitalType>('hospital');
   const [refreshing, setRefreshing] = useState(false);
 
   const hospitals: HospitalType[] = data || [];
@@ -48,7 +35,7 @@ function HospitalLayout() {
             onRefresh={onRefresh}
           />
         }
-        keyExtractor={(item: HospitalType) => item.objectId}
+        keyExtractor={(item: HospitalType) => String(item.id)}
         data={hospitals}
         renderItem={renderItem}
         ListFooterComponent={
