@@ -9,12 +9,12 @@ import {
   View,
   SafeAreaView,
   Dimensions,
+  Text,
   ScrollView,
   RefreshControl,
   StyleSheet,
-  ActivityIndicator,
 } from 'react-native';
-import { ButtonGroup } from 'react-native-elements';
+import { ButtonGroup, Button } from 'react-native-elements';
 import DataProvider, { DataContext } from '../context/Data';
 
 import Timeline from './Timeline';
@@ -65,7 +65,7 @@ const titleMap = {
 const filterList = ['confirmedCount', 'curedCount', 'deadCount'];
 
 function Map() {
-  const { data, refresh } = useContext(DataContext);
+  const { data, refresh, timeout } = useContext(DataContext);
   const [selectedIndex, setIndex] = useState(0);
   const filter = filterList[selectedIndex];
   const [refreshing, setRefreshing] = useState(false);
@@ -79,6 +79,7 @@ function Map() {
   };
 
   const webviewRef = useRef(null);
+
   useEffect(function() {
     if (webviewRef.current) {
       webviewRef.current.setOption({
@@ -204,6 +205,25 @@ function Map() {
       },
     ],
   };
+
+  if (timeout) {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <Text
+            style={{
+              color: colors.primary,
+              fontSize: 18,
+              paddingVertical: 20,
+            }}>
+            数据载入失败😢
+          </Text>
+          <Button type="outline" onPress={refresh} title="点击重试" />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
