@@ -22,6 +22,7 @@ import RecommendationList from './RecommendationList';
 import { ECharts } from 'react-native-echarts-wrapper';
 import { wait } from '../utils';
 import { colors } from '../Theme';
+import Loader from '../Components/Loader';
 
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -247,7 +248,7 @@ function Map() {
             </View>
           ) : (
             <View style={{ flex: 1, width, height }}>
-              <ActivityIndicator
+              <Loader
                 size="large"
                 color="red"
                 style={{ marginTop: height / 3 }}
