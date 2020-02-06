@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.5",
@@ -50,6 +51,7 @@
     "eslint": "^6.7.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.57.0",
+    "patch-package": "^6.2.0",
     "prettier": "^1.19.1",
     "react-native-typescript-transformer": "^1.2.13",
     "react-test-renderer": "16.9.0",

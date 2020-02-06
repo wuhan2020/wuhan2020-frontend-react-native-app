@@ -31,6 +31,7 @@ function WebViewModal({
       animationType="fade"
       presentationStyle="pageSheet"
       visible={visible}
+      onDismiss={onClose}
       onRequestClose={onClose}>
       <View style={{ padding: 16, justifyContent: 'space-between' }}>
         <View style={{ height: height - 150 }}>

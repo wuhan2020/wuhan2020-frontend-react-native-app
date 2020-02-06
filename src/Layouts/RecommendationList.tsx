@@ -56,6 +56,9 @@ function Entry(props: EntryPropsType) {
         animationType="fade"
         presentationStyle="pageSheet"
         visible={visible}
+        onDismiss={() => {
+          setVisible(false);
+        }}
         onRequestClose={() => {
           setVisible(false);
         }}>

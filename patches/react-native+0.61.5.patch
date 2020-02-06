@@ -1,0 +1,57 @@
+diff --git a/node_modules/react-native/React/Views/RCTModalHostView.h b/node_modules/react-native/React/Views/RCTModalHostView.h
+index e421e59..ba461e0 100644
+--- a/node_modules/react-native/React/Views/RCTModalHostView.h
++++ b/node_modules/react-native/React/Views/RCTModalHostView.h
+@@ -17,7 +17,7 @@
+ 
+ @protocol RCTModalHostViewInteractor;
+ 
+-@interface RCTModalHostView : UIView <RCTInvalidating>
++@interface RCTModalHostView : UIView <RCTInvalidating, UIAdaptivePresentationControllerDelegate>
+ 
+ @property (nonatomic, copy) NSString *animationType;
+ @property (nonatomic, assign) UIModalPresentationStyle presentationStyle;
+diff --git a/node_modules/react-native/React/Views/RCTModalHostView.m b/node_modules/react-native/React/Views/RCTModalHostView.m
+index bc0cac1..3291157 100644
+--- a/node_modules/react-native/React/Views/RCTModalHostView.m
++++ b/node_modules/react-native/React/Views/RCTModalHostView.m
+@@ -12,6 +12,7 @@
+ #import "RCTAssert.h"
+ #import "RCTBridge.h"
+ #import "RCTModalHostViewController.h"
++#import "RCTModalManager.h"
+ #import "RCTTouchHandler.h"
+ #import "RCTUIManager.h"
+ #import "RCTUtils.h"
+@@ -58,6 +59,9 @@ - (instancetype)initWithBridge:(RCTBridge *)bridge
+     _modalViewController.boundsDidChangeBlock = ^(CGRect newBounds) {
+       [weakSelf notifyForBoundsChange:newBounds];
+     };
++
++      
++    _modalViewController.presentationController.delegate = self;
+   }
+ 
+   return self;
+@@ -156,6 +160,14 @@ - (void)didUpdateReactSubviews
+   // Do nothing, as subview (singular) is managed by `insertReactSubview:atIndex:`
+ }
+ 
++- (void)presentationControllerDidDismiss:(UIPresentationController *)presentationController
++{
++  // Modal is already dismissed so trigger onDismiss, etc.
++  if (self.identifier) {
++    [[_bridge moduleForClass:[RCTModalManager class]] modalDismissed:self.identifier];
++  }
++}
++
+ - (void)dismissModalViewController
+ {
+   if (_isPresented) {
+diff --git a/node_modules/react-native/scripts/.packager.env b/node_modules/react-native/scripts/.packager.env
+new file mode 100644
+index 0000000..361f5fb
+--- /dev/null
++++ b/node_modules/react-native/scripts/.packager.env
+@@ -0,0 +1 @@
++export RCT_METRO_PORT=8081
