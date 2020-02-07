@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions, Linking } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 
 import WebViewModal from './Webview';
@@ -33,8 +33,6 @@ function Item({ left, right }: { left: string; right: string }) {
 }
 
 function Donation({ item }: PropTypes) {
-  const [visible, setVisible] = useState(false);
-
   return (
     <Card title={`${item.name} （${item.status}）`}>
       <ContactList data={item.contacts} />
@@ -73,13 +71,7 @@ function Donation({ item }: PropTypes) {
         <Button
           type="outline"
           title="查看详情"
-          onPress={() => setVisible(true)}
-        />
-        <WebViewModal
-          uri={item.url}
-          title={`${item.name}`}
-          visible={visible}
-          onClose={() => setVisible(false)}
+          onPress={() => Linking.openURL(item.url)}
         />
       </View>
     </Card>
