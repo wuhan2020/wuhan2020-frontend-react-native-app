@@ -21,3 +21,7 @@ use Xcode
 
 * [x] test on android
 * [x] last tab
+
+## Troubleshooting
+
+- If you want to run `npx react-native run-android` , please use `npm` to install dependencies. [#15](https://github.com/wuhan2020/wuhan2020-frontend-react-native-app/issues/15#issue-573587936)
