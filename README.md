@@ -2,6 +2,7 @@
 
 ## development
 
+* `yarn` or `npm install` => install all dependencies
 * `yarn start` => start bundler
 * `yarn ios` => start iOS simulator
 * `yarn android` => start iOS simulator
