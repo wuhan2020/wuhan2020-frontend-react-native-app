@@ -14,7 +14,7 @@
     "@react-native-community/masked-view": "^0.1.5",
     "@react-navigation/stack": "^5.0.0-alpha.63",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-chinamap": "^1.0.3",
